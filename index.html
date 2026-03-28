@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>littleorgans</title>
+    <meta name="description" content="Better representations, not larger context windows. Biological grounding for multi-agent systems." />
+    <meta property="og:title" content="littleorgans" />
+    <meta property="og:description" content="Better representations, not larger context windows." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://littleorgans.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col items-center justify-center px-6 py-16 sm:py-24">
+
+      <!-- Hero -->
+      <div class="flex flex-col items-center gap-10 max-w-lg w-full">
+
+        <!-- Teaser -->
+        <div class="flex flex-col gap-6 text-sm sm:text-base text-text-secondary leading-relaxed text-center max-w-md">
+          <p>
+            The tool we build to manage context is itself constrained by context
+            during its own construction. Every layer of abstraction we add
+            inherits the limitations it was designed to solve. The recursion
+            is structural.
+          </p>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- Nucleus -->
+        <div class="relative flex items-center justify-center w-16 h-16">
+          <div class="nucleus"></div>
+          <div class="membrane-ring"></div>
+        </div>
+
+        <!-- Identity -->
+        <h1 class="font-mono text-2xl sm:text-3xl font-medium tracking-tight text-text-primary">
+          littleorgans
+        </h1>
+
+        <!-- Tagline -->
+        <p class="text-text-secondary text-base sm:text-lg text-center leading-relaxed max-w-sm">
+          The organism, not the&nbsp;chatbot.
+        </p>
+
+        <div class="separator"></div>
+
+        <!-- Email capture -->
+        <div id="form-container" class="w-full max-w-xs">
+          <form id="notify-form" class="flex flex-col gap-3">
+            <input
+              id="email-input"
+              type="email"
+              required
+              placeholder="your@email.com"
+              autocomplete="email"
+              class="w-full bg-surface-raised border border-surface-border rounded-md px-4 py-2.5 text-sm font-mono text-text-primary placeholder:text-text-tertiary transition-colors duration-200"
+            />
+            <button
+              id="submit-btn"
+              type="submit"
+              class="notify-btn w-full bg-bio-dim text-surface font-mono text-sm font-medium rounded-md px-4 py-2.5 cursor-pointer"
+            >
+              notify me
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="mt-20 sm:mt-28 flex flex-col items-center gap-3 text-text-tertiary text-xs font-mono">
+        <div class="flex items-center gap-4">
+          <span>littleorgans.com</span>
+          <span class="text-surface-border">|</span>
+          <a
+            href="https://github.com/srobinson/littleorgans"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-text-secondary transition-colors duration-200"
+          >
+            github
+          </a>
+        </div>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
