@@ -39,20 +39,20 @@
         <div class="separator"></div>
 
         <!-- Email capture -->
-        <div id="form-container" class="w-full max-w-xs">
-          <form id="notify-form" class="flex flex-col gap-3">
+        <div id="form-container" class="w-full max-w-sm">
+          <form id="notify-form" class="flex flex-row gap-0">
             <input
               id="email-input"
               type="email"
               required
               placeholder="your@email.com"
               autocomplete="email"
-              class="w-full bg-surface-raised border border-surface-border rounded-md px-4 py-2.5 text-sm font-mono text-text-primary placeholder:text-text-tertiary transition-colors duration-200"
+              class="flex-1 bg-surface-raised border border-surface-border border-r-0 rounded-l-md px-4 py-3 text-sm font-mono text-text-primary placeholder:text-text-tertiary transition-colors duration-200"
             />
             <button
               id="submit-btn"
               type="submit"
-              class="notify-btn w-full bg-bio-dim text-surface font-mono text-sm font-medium rounded-md px-4 py-2.5 cursor-pointer"
+              class="notify-btn bg-bio-dim text-surface font-mono text-sm font-medium rounded-r-md px-5 py-3 cursor-pointer whitespace-nowrap"
             >
               notify me
             </button>

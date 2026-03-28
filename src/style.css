@@ -54,6 +54,15 @@ body {
   animation: breathe 4s ease-in-out infinite;
 }
 
+.nucleus-small {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-bio);
+  animation: breathe 4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
 /* membrane ring */
 @keyframes membrane-rotate {
   from { transform: translate(-50%, -50%) rotate(0deg); }

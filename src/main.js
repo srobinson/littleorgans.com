@@ -20,16 +20,22 @@ form.addEventListener("submit", (e) => {
   })
     .then(() => {
       formContainer.innerHTML = `
-        <p class="fade-in text-text-secondary text-sm font-mono tracking-wide">
-          noted. we'll be in touch.
-        </p>
+        <div class="fade-in flex flex-row items-center justify-center gap-3">
+          <div class="nucleus-small"></div>
+          <p class="text-text-secondary text-sm font-mono tracking-wide">
+            noted. we'll be in touch.
+          </p>
+        </div>
       `;
     })
     .catch(() => {
       formContainer.innerHTML = `
-        <p class="fade-in text-text-secondary text-sm font-mono tracking-wide">
-          noted. we'll be in touch.
-        </p>
+        <div class="fade-in flex flex-row items-center justify-center gap-3">
+          <div class="nucleus-small"></div>
+          <p class="text-text-secondary text-sm font-mono tracking-wide">
+            noted. we'll be in touch.
+          </p>
+        </div>
       `;
     });
 });
