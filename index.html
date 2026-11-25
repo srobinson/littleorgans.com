@@ -1,77 +1,488 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>littleorgans</title>
-    <meta name="description" content="Better representations, not larger context windows. Biological grounding for multi-agent systems." />
-    <meta property="og:title" content="littleorgans" />
-    <meta property="og:description" content="Better representations, not larger context windows." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://littleorgans.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div class="min-h-screen flex flex-col items-center justify-center px-6 py-16 sm:py-24">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lilo | Little Organs</title>
+<meta name="description" content="Lilo, the maker of Menu Bar Reveal.">
+<link rel="canonical" href="https://littleorgans.com/">
+<meta name="theme-color" content="#6f6a62">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Little Organs">
+<meta property="og:url" content="https://littleorgans.com/">
+<meta property="og:title" content="Lilo | Little Organs">
+<meta property="og:description" content="Lilo, the maker of Menu Bar Reveal.">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Anton-400.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Tinos-700.woff2" crossorigin>
+<style>
+/* ==========================================================================
+   Little Organs: Lilo's sheet pasted on the Menu Bar Reveal wall, with the first
+   thing Lilo made pasted beside it. Same wall, paper and type as menubarreveal.com.
+   No script and no motion. Sections: type, the wall, the Lilo sheet, the first poster,
+   the strips, phones.
+   ========================================================================== */
 
-      <!-- Hero -->
-      <div class="flex flex-col items-center gap-10 max-w-lg w-full">
+/* ---------- type ---------- */
+@font-face {
+  font-family: Anton;
+  src: url(assets/fonts/Anton-400.woff2) format("woff2");
+  font-display: block;
+}
+@font-face {
+  font-family: Tinos;
+  font-weight: 700;
+  src: url(assets/fonts/Tinos-700.woff2) format("woff2");
+  font-display: block;
+}
 
-        <!-- Nucleus -->
-        <div class="relative flex items-center justify-center w-16 h-16">
-          <div class="nucleus"></div>
-          <div class="membrane-ring"></div>
-        </div>
+:root {
+  --ink: #191613;
+  --red: #d1281b;
+  --paper: #ebe5d3;
+  --display: Anton, Impact, sans-serif;
+  --mural-wide: image-set(url(assets/art/mural-sun450-1440.ff20af0cd24470b4.avif) 1x, url(assets/art/mural-sun450-2880.8363191b74d02a16.avif) 2x);
+  --mural-phone: image-set(url(assets/art/mural-strip-692.065996871d57bbfa.avif) 1x, url(assets/art/mural-strip-1384.69bd68debc4e06c3.avif) 2x);
+  --grime: url(assets/art/grime.0f19c3772fcf5cfd.webp);
+  --crease: url(assets/art/crease-flyer.6ffac7622cb7d79e.webp);
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  background: #6f6a62;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  min-height: 100svh;
+  overflow-x: hidden;
+  color: var(--ink);
+}
 
-        <!-- Identity -->
-        <h1 class="font-mono text-2xl sm:text-3xl font-medium tracking-tight text-text-primary">
-          littleorgans
-        </h1>
+/* ---------- the wall ----------
+   The painted mural, its sun (y 450 of 1500) behind the middle of the Lilo sheet. */
+.wall {
+  --sheet-w: min(100vw - 32px, 420px);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 100svh;
+  padding: max(40px, 50svh - 340px) 16px 72px;
+  background: #3f7d86 var(--mural-wide) 50% min(0px, 50svh - 450px) / max(100vw, 1440px) auto no-repeat;
+}
+/* the daylight, as on menubarreveal.com */
+.daylight {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    radial-gradient(120% 80% at 18% 0%, rgba(255, 248, 226, .28), transparent 60%),
+    radial-gradient(140% 120% at 50% 40%, transparent 55%, rgba(0, 0, 0, .28));
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+.filters {
+  position: absolute;
+}
 
-        <!-- Tagline -->
-        <p class="text-text-secondary text-base sm:text-lg text-center leading-relaxed max-w-sm">
-          The organism, not the&nbsp;chatbot.
-        </p>
+/* ---------- paper, shared by both sheets ---------- */
+.paper {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--paper);
+  container-type: inline-size;
+  text-align: center;
+}
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+/* newsprint grime, and the creases as light */
+.paper::before {
+  z-index: 2;
+  background:
+    radial-gradient(40% 18% at 12% 96%, rgba(120, 90, 40, .20), transparent 70%),
+    radial-gradient(30% 12% at 86% 3%, rgba(120, 90, 40, .16), transparent 70%),
+    var(--grime) 0 0 / 600px 600px;
+  mix-blend-mode: multiply;
+  opacity: .42;
+}
+.paper::after {
+  z-index: 2;
+  background: var(--crease) 0 0 / 100% 100%;
+  mix-blend-mode: hard-light;
+  opacity: .5;
+}
+.band {
+  display: block;
+  margin: 3.5cqi 3.5cqi 0;
+  padding-left: 2.2cqi;
+  background: var(--red);
+  color: var(--paper);
+  font-family: var(--display);
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+  filter: url(#ink-flood);
+}
+.band span {
+  display: inline-block;
+  transform: skewX(-11deg);
+}
 
-        <div class="separator"></div>
+/* ---------- the Lilo sheet ----------
+   Cut on the fold of its peeled corner (top right); the bottom edge torn away. */
+.post {
+  position: relative;
+  z-index: 2;
+  width: var(--sheet-w);
+  margin: 0 auto;
+}
+.halo {
+  position: absolute;
+  inset: -30px -34px -18px -28px;
+  background:
+    repeating-linear-gradient(96deg, transparent 0 6px, rgba(70, 50, 20, .10) 6px 9px, transparent 9px 17px, rgba(70, 50, 20, .06) 17px 19px, transparent 19px 31px),
+    rgba(118, 96, 62, .30);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent), linear-gradient(180deg, transparent, #000 4%, #000 96%, transparent);
+  mask-composite: intersect;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.lilo {
+  --corner: clamp(46px, 15cqi, 72px);
+  position: relative;
+  transform: rotate(-.7deg);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25));
+}
+.lilo .paper {
+  clip-path: polygon(0 0, calc(100% - var(--corner)) 0, 100% var(--corner), 100% 100%, 0 100%);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 460 420' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.035 .09' numOctaves='4' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='26' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='-40' y='-40' width='540' height='446' filter='url(%23t)'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 460 420' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.035 .09' numOctaves='4' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='26' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='-40' y='-40' width='540' height='446' filter='url(%23t)'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+}
+.lilo .band {
+  height: 7.8cqi;
+  font-size: 6.9cqi;
+  line-height: 7.8cqi;
+}
+/* the mark (adopted 2026-11-24, "82"): printed in one pass of ink, the white as bare paper */
+.mark {
+  display: block;
+  width: 46cqi;
+  height: 46cqi;
+  margin: 10cqi auto 0;
+  filter: url(#press);
+}
+.mark .ink {
+  fill: var(--ink);
+}
+.mark .bare {
+  fill: var(--paper);
+}
+.mark .rule {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 14;
+}
+.lilo h1 {
+  margin-top: 6cqi;
+  font: 400 50cqi/.86 var(--display);
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  filter: url(#ink);
+}
+/* the one thing the sheet says in plain type */
+.lilo p.say {
+  margin: 6cqi 9cqi 0;
+  /* the torn edge takes the last 14 units; padding on .paper would resolve cqi against the viewport */
+  padding-bottom: 14cqi;
+  text-wrap: balance;
+  font: 700 5.6cqi/1.15 Tinos, "Times New Roman", Times, serif;
+}
+/* the peeled corner, as on the front page next door */
+.curl {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  overflow: visible;
+  width: var(--corner);
+  height: var(--corner);
+  pointer-events: none;
+}
 
-        <!-- Email capture -->
-        <div id="form-container" class="w-full max-w-sm">
-          <form id="notify-form" class="flex flex-row gap-0">
-            <input
-              id="email-input"
-              type="email"
-              required
-              placeholder="your@email.com"
-              autocomplete="email"
-              class="flex-1 bg-surface-raised border border-surface-border border-r-0 rounded-l-md px-4 py-3 text-sm font-mono text-text-primary placeholder:text-text-tertiary transition-colors duration-200"
-            />
-            <button
-              id="submit-btn"
-              type="submit"
-              class="notify-btn bg-bio-dim text-surface font-mono text-sm font-medium rounded-r-md px-5 py-3 cursor-pointer whitespace-nowrap"
-            >
-              notify me
-            </button>
-          </form>
-        </div>
+/* ---------- the strips: the way out, pasted under the sheet ---------- */
+.strips {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 18px;
+}
+.strip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font: 400 22px/1 var(--display);
+  letter-spacing: .02em;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .3);
+  transform: rotate(1.4deg);
+}
+.strip + .strip {
+  transform: rotate(-1.8deg) translateY(3px);
+}
+.strip:hover {
+  background: #b92217;
+}
+.strip:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px var(--ink);
+}
+
+/* ---------- the first poster: Menu Bar Reveal's front page, small ---------- */
+.first {
+  position: absolute;
+  top: max(40px, 50svh - 340px);
+  left: calc(50% + var(--sheet-w) / 2 + 56px);
+  z-index: 1;
+  display: block;
+  width: 196px;
+  color: inherit;
+  text-decoration: none;
+  transform: rotate(2.2deg);
+  filter: url(#tear) drop-shadow(0 1px 1px rgba(0, 0, 0, .25)) saturate(.9);
+  -webkit-tap-highlight-color: transparent;
+}
+.first .band {
+  height: 11cqi;
+  font-size: 9.6cqi;
+  line-height: 11cqi;
+}
+.first .strap {
+  display: block;
+  margin: 1.6cqi 3.5cqi 0;
+  background: var(--ink);
+  color: var(--paper);
+  font: 400 4.7cqi/7.4cqi var(--display);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  filter: url(#ink-flood);
+}
+.first .splash {
+  display: block;
+  margin-top: 3cqi;
+  font-family: var(--display);
+  line-height: .92;
+  text-transform: uppercase;
+  filter: url(#ink-flood);
+}
+.first .splash span {
+  display: block;
+}
+.first .splash .l1 {
+  padding-right: 6cqi;
+  font-size: 22cqi;
+  text-align: right;
+  transform: skewX(-11deg);
+}
+.first .splash .l2 {
+  font-size: 34cqi;
+}
+.first .icon {
+  position: relative;
+  display: block;
+  width: 40cqi;
+  height: 40cqi;
+  margin: 5cqi auto 0;
+  border-radius: 9cqi;
+  background: var(--red);
+  mix-blend-mode: multiply;
+  filter: url(#press);
+}
+.first:hover .icon {
+  background: #dc3122;
+}
+.first:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 6px;
+}
+.icon .bar {
+  position: absolute;
+  top: 27.91%;
+  left: 22.82%;
+  width: 54.37%;
+  height: 13.59%;
+  border-radius: 99px;
+  background: #fff;
+}
+.icon .arrow {
+  position: absolute;
+  top: 47.33%;
+  left: 26.7%;
+  overflow: visible;
+  width: 46.6%;
+  height: 27.18%;
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+.first .where {
+  display: block;
+  padding: 5cqi 0 7cqi;
+  font: 700 7cqi/1 Tinos, "Times New Roman", Times, serif;
+}
+
+/* ---------- phones ----------
+   The middle strip of the wall; the first poster pasted under the strips. */
+@media (width < 900px) {
+  .wall {
+    padding-top: 48px;
+    background: #3f7d86 var(--mural-phone) 50% 0 / max(100vw, 692px) auto no-repeat;
+  }
+  .first {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: min(56vw, 230px);
+    margin: 44px auto 0;
+  }
+}
+</style>
+</head>
+<body>
+<main class="wall">
+  <div class="post">
+    <div class="halo" aria-hidden="true"></div>
+    <article class="lilo" aria-labelledby="title">
+      <div class="paper">
+        <p class="band"><span>Little Organs</span></p>
+        <svg class="mark" viewBox="0 0 1000 1000" role="img" aria-label="The Lilo mark: a black square, a paper square inside it, a black square at its centre.">
+          <rect class="ink" width="1000" height="1000"/>
+          <rect class="bare" x="150" y="150" width="700" height="700"/>
+          <polyline class="rule" points="353,150 353,647 647,647"/>
+          <polyline class="rule" points="647,850 647,353 353,353"/>
+          <rect class="ink" x="353" y="353" width="294" height="294"/>
+        </svg>
+        <h1 id="title">Lilo</h1>
+        <p class="say">“Every human is going to own an agent.”</p>
       </div>
+      <svg class="curl" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <defs>
+          <!-- across the roll, from its crest on the fold to the tip turning away -->
+          <linearGradient id="curl-back" gradientUnits="userSpaceOnUse" x1="55" y1="45" x2="19" y2="81">
+            <stop offset="0" stop-color="#cfc6ae"/><stop offset=".06" stop-color="#fffdf3"/><stop offset=".2" stop-color="#f6f0df"/>
+            <stop offset=".5" stop-color="#e7dec8"/><stop offset=".82" stop-color="#d3c8ad"/><stop offset="1" stop-color="#b9ad90"/>
+          </linearGradient>
+          <linearGradient id="curl-lift" gradientUnits="userSpaceOnUse" x1="50" y1="50" x2="22" y2="78">
+            <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".6" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+          </linearGradient>
+          <path id="curl-shape" d="M0 0C-5 6 -6 15 -4 26C0 46 9 64 22 76C44 80 66 88 82 100C90 105 97 104 100 100C84 82 67 66 51 50C34 33 17 16 0 0Z"/>
+          <clipPath id="curl-flap"><use href="#curl-shape"/></clipPath>
+          <clipPath id="curl-wall"><path d="M0 0H100V100Z"/></clipPath>
+          <filter id="curl-blur" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6"/></filter>
+          <filter id="curl-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.4"/></filter>
+          <filter id="paste" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency=".02 .16" numOctaves="3" seed="12" result="n"/>
+            <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -4 2.3" result="m"/>
+            <feComposite in="SourceGraphic" in2="m" operator="in"/>
+          </filter>
+        </defs>
+        <!-- the wall behind, shaded by the lifted sheet. Clean, like the rest of the wall: until v10 a blotched skin of
+             paste and paper was left here, which read as one more scuffed patch -->
+        <g clip-path="url(#curl-wall)">
+          <path d="M-4 -4L104 104" stroke="#000" stroke-opacity=".55" stroke-width="16" filter="url(#curl-soft)"/>
+        </g>
+        <!-- the sheet lifting off the wall before it turns over, and the curl's shadow on the print -->
+        <path d="M-14 10L0 0L100 100L90 114Q40 104 8 98Z" fill="url(#curl-lift)"/>
+        <use href="#curl-shape" fill="#000" fill-opacity=".85" transform="translate(-8 10)" filter="url(#curl-blur)"/>
+        <!-- the curl: pale unprinted back, brushed with paste, rolled on the fold and turning away at the tip -->
+        <use href="#curl-shape" fill="url(#curl-back)"/>
+        <g clip-path="url(#curl-flap)">
+          <g transform="rotate(-50 40 60)"><rect x="-40" y="0" width="180" height="120" fill="#8a7a58" opacity=".08" filter="url(#paste)"/></g>
+          <path d="M-6 30C2 50 10 66 22 76C44 80 68 90 84 102" fill="none" stroke="#5d5038" stroke-opacity=".5" stroke-width="5" filter="url(#curl-soft)"/>
+          <path d="M22 76C44 80 66 88 82 100" fill="none" stroke="#fffdf4" stroke-opacity=".55" stroke-width=".9"/>
+        </g>
+      </svg>
+    </article>
+    <p class="strips">
+      <a class="strip" href="https://github.com/srobinson">GitHub</a>
+      <a class="strip" href="https://x.com/KnowMoreNews">X</a>
+    </p>
+  </div>
 
-      <!-- Footer -->
-      <footer class="mt-20 sm:mt-28 flex flex-col items-center gap-3 text-text-tertiary text-xs font-mono">
-        <a
-          href="https://github.com/srobinson/littleorgans"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="hover:text-text-secondary transition-colors duration-200"
-        >
-          github
-        </a>
-      </footer>
-    </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+  <a class="first" href="https://menubarreveal.com/" aria-label="Menu Bar Reveal, at menubarreveal.com">
+    <span class="paper">
+      <span class="band"><span>Menu Bar Reveal</span></span>
+      <span class="strap">A single icon for your menu bar</span>
+      <span class="splash"><span class="l1">Swift</span><span class="l2">Justice</span></span>
+      <span class="icon"><span class="bar"></span><svg class="arrow" viewBox="3 7.5 12 7" focusable="false"><path d="M5 9L9 13L13 9"/></svg></span>
+      <span class="where">menubarreveal.com</span>
+    </span>
+  </a>
+
+  <div class="daylight" aria-hidden="true"></div>
+</main>
+
+<!-- The filters the styles above call by name, as on menubarreveal.com. -->
+<svg class="filters" width="0" height="0" aria-hidden="true" focusable="false">
+  <!-- torn paper: alpha bitten inward by fine noise, a white paper core showing along the tear -->
+  <filter id="tear" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".07" numOctaves="4" seed="3" result="n1"/>
+    <feDisplacementMap in="SourceAlpha" in2="n1" scale="11" xChannelSelector="R" yChannelSelector="G" result="m1"/>
+    <feComposite in="SourceGraphic" in2="m1" operator="in" result="print"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".11" numOctaves="3" seed="9" result="n2"/>
+    <feDisplacementMap in="SourceAlpha" in2="n2" scale="6" xChannelSelector="G" yChannelSelector="R" result="m2"/>
+    <feComposite in="m2" in2="SourceAlpha" operator="in" result="m2in"/>
+    <feFlood flood-color="#f4efe2"/>
+    <feComposite in2="m2in" operator="in" result="core"/>
+    <feMerge><feMergeNode in="core"/><feMergeNode in="print"/></feMerge>
+  </filter>
+  <!-- a solid flood off one plate: mottled density and a little salt, far fewer holes than the type -->
+  <filter id="ink-flood" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="15" result="sp"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="3" seed="19" result="bl"/>
+    <feComposite in="sp" in2="bl" operator="arithmetic" k2=".85" k3=".15" result="mix"/>
+    <feColorMatrix in="mix" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -20 0 0 0 16" result="salt"/>
+    <feColorMatrix in="bl" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -.6 0 0 0 1.28" result="dens"/>
+    <feComposite in="salt" in2="dens" operator="arithmetic" k1="1" result="mask"/>
+    <feComposite in="SourceGraphic" in2="mask" operator="in" result="worn"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".08" numOctaves="2" seed="6" result="edge"/>
+    <feDisplacementMap in="worn" in2="edge" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <!-- worn wood type: speckle holes and grain streaks knocked out of the ink -->
+  <filter id="ink" x="-2%" y="-4%" width="104%" height="108%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="5" result="sp"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="11" result="bl"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".008 .22" numOctaves="1" seed="8" result="gr"/>
+    <feComposite in="sp" in2="bl" operator="arithmetic" k2=".55" k3=".45" result="m1"/>
+    <feComposite in="m1" in2="gr" operator="arithmetic" k2=".84" k3=".16" result="mix"/>
+    <feColorMatrix in="mix" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -9 0 0 0 6.05" result="mask"/>
+    <feComposite in="SourceGraphic" in2="mask" operator="in" result="worn"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="2" result="edge"/>
+    <feDisplacementMap in="worn" in2="edge" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <!-- the icon's own pass of red: solid ink, the edge a hair off true -->
+  <filter id="press" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="6" result="edge"/>
+    <feDisplacementMap in="SourceGraphic" in2="edge" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+</body>
 </html>

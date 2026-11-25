@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <rect width="1000" height="1000" fill="#000"/>
+  <path fill="#fff" d="M150,150 H850 V850 H150 V150 Z"/>
+  <polyline fill="none" stroke="#000" stroke-width="14" stroke-linecap="butt" stroke-linejoin="miter" points="353.0,150 353.0,647.0 647.0,647.0"/>
+  <polyline fill="none" stroke="#000" stroke-width="14" stroke-linecap="butt" stroke-linejoin="miter" points="647.0,850 647.0,353.0 353.0,353.0"/>
+  <rect x="353.0" y="353.0" width="294.0" height="294.0" fill="#000"/>
+</svg>
