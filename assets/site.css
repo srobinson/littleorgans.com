@@ -2,8 +2,9 @@
    littleorgans.com: the door, its maker's words beneath it, and Writing.
    Brand: lilo/brand/BRAND.md. Two colours, Lilo black on white, no tints; only
    the product capture keeps Lilotab's own UI colours, inside its own edge.
-   One 8 px grid, one left axis, two type sizes. Text boxes are trimmed to cap
-   height and baseline, so every gap below is measured ink to ink.
+   One 8 px grid, one left axis, two type sizes, his invitation a step between.
+   Text boxes are trimmed to cap height and baseline, so every gap below is
+   measured ink to ink.
    ========================================================================== */
 
 /* ---------- type: Barlow, from the brand fonts (OFL, assets/fonts/OFL.txt) ---------- */
@@ -34,12 +35,12 @@
   --axis: var(--edge);             /* the one left edge */
   --logo: calc(var(--u) * 9);      /* 72 px; clear space 0.42 x 72 = 30.2 px */
   --after-logo: calc(var(--u) * 4);/* 32 px, at least the clear space */
-  --after-line: calc(var(--u) * 5);
+  --after-line: calc(var(--u) * 2);   /* the line, then his invitation under it */
+  --after-connect: calc(var(--u) * 5);
   --after-name: calc(var(--u) * 2);
   --after-product: calc(var(--u) * 5);
   --around-words: calc(var(--u) * 8); /* above his words and below them, before the maker */
   --between: calc(var(--u) * 3);   /* between his passages; the line within one is 12.8 px ink to ink */
-  --before-reach: calc(var(--u) * 5);
   --read: 18px;                    /* writing pages: type size two, for reading */
   --read-lead: 28px;
   --read-gap: calc(var(--u) * 4);  /* between paragraphs, ink to ink; the line within one is 15.4 px */
@@ -55,6 +56,8 @@
   --say: 28px;                     /* type size one: the line */
   --say-lead: calc(var(--u) * 4);
   --say-measure: 18em;
+  --connect: 20px;                 /* his invitation: a step below the line, in text type */
+  --connect-lead: calc(var(--u) * 3);
   --small: 16px;                   /* type size two: everything else */
   --small-lead: calc(var(--u) * 3);
   --measure: 34em;                 /* running text, about the width of Lilotab's menu */
@@ -68,12 +71,12 @@
     --axis: max(var(--edge), 100vw / 6);
     --logo: calc(var(--u) * 16);     /* 128 px; clear space 53.8 px */
     --after-logo: calc(var(--u) * 7);/* 56 px */
-    --after-line: calc(var(--u) * 8);
+    --after-line: calc(var(--u) * 3);
+    --after-connect: calc(var(--u) * 8);
     --after-name: calc(var(--u) * 3);
     --after-product: calc(var(--u) * 7);
     --around-words: calc(var(--u) * 12);
     --between: calc(var(--u) * 4);
-    --before-reach: calc(var(--u) * 7);
     --read: 20px;
     --read-lead: calc(var(--u) * 4);
     --read-gap: calc(var(--u) * 5);  /* the line within a paragraph is 18 px */
@@ -87,6 +90,8 @@
     --after-head: calc(var(--u) * 4);
     --say: 40px;
     --say-lead: calc(var(--u) * 6);
+    --connect: 24px;
+    --connect-lead: calc(var(--u) * 4);
   }
 }
 @media (min-width: 1200px) {
@@ -149,6 +154,22 @@ a:focus-visible {
   text-wrap: balance;
   text-box: trim-both cap alphabetic;
 }
+.connect {
+  max-width: var(--say-measure);
+  margin-top: var(--after-line);
+  margin-left: -0.037em; /* the Y's side bearing (37 of 1000), onto the axis */
+  font-size: var(--connect);
+  line-height: var(--connect-lead);
+  text-box: trim-both cap alphabetic;
+}
+.connect a {
+  text-decoration: underline 1px;
+  text-underline-offset: 0.25em;
+}
+.connect a:hover,
+.connect a:active {
+  text-decoration-thickness: 2px;
+}
 
 /* ---------- Lilotab: its icon and name, then its menu as it renders ---------- */
 .product {
@@ -156,7 +177,7 @@ a:focus-visible {
   display: block;
   width: fit-content;
   max-width: 100%;
-  margin-top: var(--after-line);
+  margin-top: var(--after-connect);
   text-decoration: none;
 }
 .name {
@@ -247,13 +268,6 @@ a:focus-visible {
 }
 .words p + p {
   margin-top: var(--between);
-}
-.words .reach {
-  margin-top: var(--before-reach); /* the reach line closes the block */
-}
-.words .quiet {
-  display: inline-block;
-  margin-top: calc(var(--after-name) - var(--u) * 2); /* the touch padding sits inside the gap */
 }
 
 /* ---------- writing: the logo home, a title, then long form ---------- */
