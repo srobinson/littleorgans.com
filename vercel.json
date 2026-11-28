@@ -1,5 +1,5 @@
 {
   "framework": null,
-  "buildCommand": "rm -rf dist && mkdir -p dist/assets/fonts dist/assets/home-cast-b && cp index.html favicon.ico dist/ && cp assets/site.css dist/assets/ && cp -R assets/logo dist/assets/ && cp assets/home-cast-b/*.webp dist/assets/home-cast-b/ && cp assets/fonts/*.woff2 assets/fonts/OFL.txt dist/assets/fonts/ && cp -R writing dist/ && cp assets/writing.css dist/assets/",
+  "buildCommand": "rm -rf dist && mkdir -p dist/assets && cp -R writing index.html favicon.ico dist/ && cd assets && out=../dist/assets && cp -R fonts logo site.css writing.css \"$out/\" && mkdir \"$out/home-cast-b\" && cp home-cast-b/*.webp \"$out/home-cast-b/\"",
   "outputDirectory": "dist"
 }
