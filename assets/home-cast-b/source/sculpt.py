@@ -151,6 +151,11 @@ class Figure:
                c.depth, bevel=.045 if c.form == "steps" else .060)
         if kind == "shelf":
             s.box("Shelf jaw", (shift-.02, -.036, f.neck+.026), (c.width*.84, c.depth*1.05, .13), .032)
+        if self.role.stance == "depart":
+            s.box("Rear crown plate", (shift, c.depth/2, f.neck+h*.54),
+                  (c.width*.76, .115, h*.73), .036, s.seam)
+            s.box("Rear crown seam", (shift, c.depth*.60, f.neck+h*.35),
+                  (c.width*.60, .04, .055), .012, s.pupil)
         # A small inlay below the brow, never a full width visor.
         side = -.30 if kind == "shelf" else .35 if c.form in {"steps", "cut", "recess"} else 0
         x, y, z = shift + side*w, -c.depth/2-.005, f.neck+h*.59
@@ -194,18 +199,34 @@ class Figure:
                   (l+a*.34, -f.depth*.508, top-.16), .036, .015, mat=s.seam)
         if f.profile == "stacked":
             s.box("Horizontal jacket layer", (h, -f.depth*.50, z+.32), (b*1.67, .06, .12), .028, s.seam)
+        if self.role.stance == "depart":
+            s.box("Dorsal plate", (l, f.depth*.50, top-.67), (a*1.37, .16, 1.03), .05, s.seam)
+            s.box("Spine", (h, f.depth*.57, z+.73), (.16, .13, 1.22), .026, s.ink)
 
     def legs(self, stance):
         s, f = self.shop, self.frame
         h = f.hip_shift
+        if stance == "depart":
+            # Lead toe planted ahead; the camera sees the lifted sole behind.
+            for x, y, heel, pitch in ((-.34, -.84, .095, 0), (.28, .63, .50, 57)):
+                s.folded_bar("Walking leg bar", ((x*.76, 0, f.hips+.13),
+                             (x, y*.49-.14, f.hips*.54), (x, y+.08, heel+.09)),
+                             (f.limb*1.25, f.limb, f.limb*.89), f.limb*1.17)
+                shoe = s.box("Lifted heel" if pitch else "Planted toe",
+                             (x, y, heel), (.35, .53, .19), .027)
+                shoe.rotation_euler[0] = radians(pitch)
+                if pitch:
+                    tread = s.box("Rear sole", (0, .04, -.097), (.27, .31, .036), .013, s.seam)
+                    tread.parent = shoe
+            return
         if stance == "stride":
-            steps = [(-.31, .27, -1.03, .18, 0), (.32, -.18, .98, -.31, 13)]
+            steps = [(-.31, .27, -.92, .18, 0), (.32, -.18, .98, -.31, 13)]
         elif stance == "brace":
             steps = [(-.48, .34, -1.04, .45, 0), (.50, -.35, 1.05, -.48, 0)]
         elif stance == "approach":
             steps = [(-.23, .21, -.59, .29, 0), (.25, -.23, .57, -.28, 0)]
         else:
-            spread = {"sill": .31, "span": .64, "folio": .55, "bow": .37}.get(self.role.frame, .36)
+            spread = {"sill": .31, "span": .51, "folio": .55, "bow": .37}.get(self.role.frame, .36)
             steps = [(-.23, .19, -spread, .20, 0), (.26, -.20, spread, -.21, 0)]
         foot_width = .52 if stance == "brace" else .40 if stance == "stride" else .38
         for hip, y, foot, fy, tilt in steps:
@@ -270,6 +291,12 @@ class Figure:
         elif gesture == "fold":
             lead = ((l+reach*.79, -.12, z), (l+reach*.64, -.24, low), (l-.33, -.52, low+.18))
             off = ((l-reach*.79, -.08, z), (l-reach*.66, -.26, low+.04), (l+.32, -.67, low+.37))
+        elif gesture == "swing":
+            lead = ((l+reach*.78, -.08, z), (l+.54, -.26, z-.59), (l+.51, -.72, z-1.06))
+            off = ((l-reach*.78, .10, z), (l-.60, .52, z-.55), (l-.48, .49, z-1.10))
+        elif gesture == "depart":
+            lead = ((l+reach*.89, 0, z), (l+.56, .45, z-.54), (l+.68, .57, z-.93))
+            off = ((l-reach*.89, 0, z), (l-.46, -.46, z-.67), (l-.43, -.68, z-1.12))
         else:  # align: both hands do the same job on the bench
             lead = ((l-reach*.82, -.14, z), (l-.90, -.58, low+.03), (l-.65, -.97, low-.05))
             off = ((l+reach*.82, -.13, z), (l+.91, -.58, low+.03), (l+.65, -.97, low-.05))
@@ -301,7 +328,8 @@ class Figure:
         group = bpy.data.objects.new(self.role.name, None)
         bpy.context.collection.objects.link(group)
         for obj in pieces:
-            obj.parent = group
+            if obj.parent is None:
+                obj.parent = group
         group.location = placement
         group.scale = (scale,) * 3
         group.rotation_euler[2] = radians(angle)

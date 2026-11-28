@@ -135,6 +135,7 @@ footer {
   }
 
   .cast {
-    margin-block-start: 20px;
+    margin-block-start: 4px;
+    margin-inline: calc(var(--edge) * -.5);
   }
 }

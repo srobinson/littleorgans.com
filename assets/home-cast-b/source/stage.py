@@ -14,6 +14,7 @@ import bpy
 from mathutils import Vector
 
 from cast import CAST
+from parts import FRAMES
 from sculpt import Figure, Shop, material
 
 
@@ -21,23 +22,23 @@ ROLES = {role.name: role for role in CAST}
 # (floor x, depth y, scale, yaw). The forward direction of each rig is -Y.
 SHOTS = {
     "wide": (
-        (1.15, -19.6, 2.32), (0, 1, 2.50), 48, (2560, 1024),
+        (.17, -15.3, .73), (.0, 1, 2.55), 38, (2400, 960),
         {
-            "Span": (-5.90, 4.0, .97, 145),
-            "Kern": (-2.95, -.65, .98, 34),
-            "Heft": (.05, .28, 1.03, 53),
-            "Ply": (3.1, 1.7, 1.13, -51),
-            "Sill": (6.44, 5.3, .88, -151),
+            "Span": (-6.35, 2.5, .97, 73),
+            "Kern": (-3.45, -.40, 1.03, 31),
+            "Heft": (-.10, -.85, 1.05, 49),
+            "Sill": (2.94, 4.5, 1.12, 170),
+            "Ply": (5.64, .98, 1.11, -59),
         },
     ),
     "tall": (
-        (.5, -12.3, 2.9), (-.03, 1.2, 2.65), 55, (840, 900),
+        (.05, -11.7, .61), (0, 1.5, 2.29), 41, (840, 810),
         {
-            "Span": (-4.52, 5.0, .89, 158),
-            "Kern": (-1.49, -.72, 1, 37),
-            "Heft": (.93, -.63, .89, 51),
-            "Ply": (3.34, 4.15, 1.07, -63),
-            "Sill": (.44, 6.15, 1.27, -143),
+            "Span": (-5.22, 2.88, .89, 88),
+            "Kern": (-2.09, -.74, .97, 40),
+            "Sill": (-.06, 3.42, 1.12, 179),
+            "Heft": (2.05, -.08, .90, 57),
+            "Ply": (5.26, 4.44, 1.06, -65),
         },
     ),
 }
@@ -60,35 +61,34 @@ def area(name, position, target, energy, width, height=None, spread=180):
     point(lamp, target)
 
 
-def room(shop):
+def room(shop, portal):
     s = shop
-    cement = material("Honed concrete", .34, .78)
-    s.grain(cement, 8, .024)
-    s.box("Continuous floor", (0, 3, -.31), (100, 80, .62), 0, cement)
-    s.box("Raised gallery floor", (0, 13.75, -.055), (39, 21, 1.21), .025, cement)
-    s.box("Far wall left", (-12.8, 8.1, 8), (25.0, 1.8, 16), .043, cement)
-    s.box("Far wall right", (18.65, 8.1, 8), (27.0, 1.8, 16), .043, cement)
-    s.box("Threshold lintel", (2.4, 8.1, 11.4), (5.55, 1.8, 9.2), .043, cement)
-    s.box("Return inside the opening", (5.1, 11.65, 4.5), (1.3, 8.4, 9), .04, cement)
-    s.box("Far gallery", (0, 17.5, 8), (45, 1, 16), .035, cement)
-    s.box("Left return", (-8.5, 4.9, 8), (1.25, 7, 16), .04, cement)
+    cement = material("Threshold stone", .63, .86)
+    floor = s.box("Continuous floor", (0, 3, -.31), (100, 80, .62), 0, cement)
+    floor.is_shadow_catcher = True
+    x, y = portal
+    width, height, depth, pier = 2.54, 5.75, 1.06, .43
+    for side in (-1, 1):
+        s.box("Threshold return", (x + side*(width+pier)/2, y, height/2),
+              (pier, depth, height), .025, cement)
+    s.box("Threshold lintel", (x, y, height+.23), (width+2*pier, depth, .46), .025, cement)
 
 
 def place(shop, positions):
-    finishes = {"Span": .051, "Kern": .013, "Heft": .027, "Ply": .038, "Sill": .023}
+    finishes = {"Span": .032, "Kern": .018, "Heft": .026, "Ply": .036, "Sill": .031}
     rigs = {}
-    shop.bright = material("Porcelain inlay", .29, .52)
+    shop.bright = material("Porcelain inlay", .51, .60)
+    shop.seam = material("Structural seam", .064, .60)
+    shop.grain(shop.seam, 31, .009)
+    poses = {"Span": {"gesture": "fold"}, "Kern": {"gesture": "swing"},
+             "Sill": {"stance": "depart", "gesture": "depart"}}
     for name, (x, y, scale, yaw) in positions.items():
-        shop.ink = material(f"{name} finish", finishes[name], .49)
+        shop.ink = material(f"{name} finish", finishes[name], .61)
         shader = shop.ink.node_tree.nodes.get("Principled BSDF")
-        shader.inputs["Metallic"].default_value = .16
-        shop.grain(shop.ink, 29, .011)
-        role = ROLES[name]
-        if name == "Span":
-            role = replace(role, gesture="fold")
-        if name == "Sill":
-            role = replace(role, stance="approach")
-        rigs[name] = Figure(shop, role).build((x, y, .55 if y >= 3.25 else 0), scale, yaw)
+        shader.inputs["Metallic"].default_value = .19
+        shop.grain(shop.ink, 44, .006)
+        role = replace(ROLES[name], **poses.get(name, {}))
+        rigs[name] = Figure(shop, role).build((x, y, 0), scale, yaw)
 
     shop.ink = material("Billet graphite", .14, .58)
     billet = shop.box("Billet in Heft's hands", (-1.39, -.315, 2.295),
@@ -106,26 +106,28 @@ def render(key, destination, quick):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     scene = bpy.context.scene
     scene.render.engine = "CYCLES"
-    scene.cycles.samples = 12 if quick else 56
+    scene.cycles.samples = 22 if quick else 112
     scene.cycles.use_denoising = True
     scene.cycles.max_bounces = 7
     scene.render.threads_mode = "FIXED"
     scene.render.threads = 8
     scene.view_settings.view_transform = "AgX"
     scene.view_settings.look = "AgX - Medium High Contrast"
-    scene.view_settings.exposure = .12
+    scene.view_settings.exposure = -.24
     scene.world = bpy.data.worlds.new("Fill")
     scene.world.use_nodes = True
-    scene.world.node_tree.nodes.get("Background").inputs["Strength"].default_value = .13
+    scene.world.node_tree.nodes.get("Background").inputs["Strength"].default_value = .095
 
     position, target, lens, resolution, figures = SHOTS[key]
     shop = Shop()
-    room(shop)
+    sx, sy, _, _ = figures["Sill"]
+    portal = (sx+.10, sy+2.0)
+    room(shop, portal)
     rigs = place(shop, figures)
-    area("High raking key", (-5.2, -.9, 8.4), (-.3, 1.9, 1.6), 2320, 3.1, 2.5, spread=94)
-    area("Portal bounce", (2.2, 10.70, 5.5), (.6, .4, 1.7), 2520, 3, 4.7)
-    area("Broad fill", (7.1, -6.8, 6.3), (0, 2, 1.9), 520, 6.5, spread=102)
-    area("Far gallery light", (1.4, 13.1, 5.4), (3.05, 17, 3.49), 3180, 3.7)
+    x, y = portal
+    area("Hard doorway key", (x, y+.37, 5.20), (.1, -.9, 1.95), 3280, .65, 1.58)
+    area("Low side bounce", (-7.9, -4.1, 4.0), (-1.1, 1.7, 2.05), 530, 4.5, spread=105)
+    area("Stone return", (x+4.3, y+.55, 7.2), (x, y, 4.0), 1630, 3.7, spread=70)
     bpy.ops.object.camera_add(location=position)
     cam = bpy.context.object
     cam.data.lens = lens
@@ -133,6 +135,10 @@ def render(key, destination, quick):
     point(cam, target)
     scene.camera = cam
 
+    hip_min = min(FRAMES[ROLES[name].frame].hips * rig.scale.x for name, rig in rigs.items())
+    tilt = Vector(target) - cam.location
+    print(f"{key} camera: z={position[2]:.2f}, lowest hip={hip_min:.2f}, "
+          f"upward tilt={degrees(atan2(tilt.z, hypot(tilt.x, tilt.y))):.1f}°", flush=True)
     # Measure from each cast member's shoulders, in their own frame.
     for name, rig in rigs.items():
         view = rig.matrix_world.inverted() @ cam.location - Vector((0, 0, 2.55))
@@ -143,7 +149,8 @@ def render(key, destination, quick):
     scene.render.resolution_x, scene.render.resolution_y = resolution
     scene.render.resolution_percentage = 40 if quick else 100
     scene.render.image_settings.file_format = "PNG"
-    scene.render.image_settings.color_mode = "RGB"
+    scene.render.film_transparent = True
+    scene.render.image_settings.color_mode = "RGBA"
     scene.render.filepath = str(destination / f"{key}.png")
     bpy.ops.render.render(write_still=True)
 
