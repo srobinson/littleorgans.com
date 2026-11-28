@@ -44,6 +44,10 @@
   --read-lead: 28px;
   --read-gap: calc(var(--u) * 4);  /* between paragraphs, ink to ink; the line within one is 15.4 px */
   --read-measure: 32em;            /* about 70 characters */
+  --lede: 20px;                    /* the standfirst, a step above the reading size */
+  --lede-lead: 30px;
+  --head: 22px;                    /* post sections, a step below the title */
+  --head-lead: 28px;
   --after-top: calc(var(--u) * 10);
   --after-title: calc(var(--u) * 5);
   --before-head: calc(var(--u) * 8);
@@ -73,6 +77,10 @@
     --read: 20px;
     --read-lead: calc(var(--u) * 4);
     --read-gap: calc(var(--u) * 5);  /* the line within a paragraph is 18 px */
+    --lede: 24px;
+    --lede-lead: 36px;
+    --head: 28px;
+    --head-lead: calc(var(--u) * 4);
     --after-top: calc(var(--u) * 15);
     --after-title: calc(var(--u) * 7);
     --before-head: calc(var(--u) * 11);
@@ -281,6 +289,10 @@ a:focus-visible {
   text-wrap: balance;
   text-box: trim-both cap alphabetic;
 }
+.prose h2 {
+  font-size: var(--head);
+  line-height: var(--head-lead);
+}
 .title {
   margin-top: var(--after-top);
 }
@@ -310,8 +322,15 @@ a:focus-visible {
   text-box: trim-both cap alphabetic;
 }
 .prose em {
-  font-style: normal; /* Barlow ships no italic here; the standfirst's emphasis is set in Medium */
+  font-style: normal; /* the brand ships no italic, so emphasis is never slanted */
   font-weight: 500;
+}
+.prose .standfirst {
+  font-size: var(--lede);
+  line-height: var(--lede-lead);
+}
+.prose .standfirst em {
+  font-weight: 400; /* set apart by its size and the rule under it */
 }
 .prose strong {
   font-weight: 500;
