@@ -1,0 +1,196 @@
+/* ==========================================================================
+   littleorgans.com writing: the logo home, a title, then long form.
+   Brand: lilo/brand/BRAND.md. Lilo off-black on the off-white, one --paper
+   swap (owner c9e459d2). One 8 px grid, one left axis. Text boxes are trimmed
+   to cap height and baseline, so every gap below is measured ink to ink.
+   A piece made from his words: his sentences carry data-said, the message id
+   they come from; the title, the note and the section heads are ours.
+   ========================================================================== */
+
+/* ---------- type: Barlow, from the brand fonts (OFL, assets/fonts/OFL.txt) ---------- */
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  font-weight: 600;
+  src: url(/assets/fonts/BarlowSemiCondensed-SemiBold.woff2) format("woff2");
+  font-display: block;
+}
+@font-face {
+  font-family: Barlow;
+  font-weight: 500;
+  src: url(/assets/fonts/Barlow-Medium.woff2) format("woff2");
+  font-display: block;
+}
+@font-face {
+  font-family: Barlow;
+  font-weight: 400;
+  src: url(/assets/fonts/Barlow-Regular.woff2) format("woff2");
+  font-display: block;
+}
+
+:root {
+  --ink: #16140f;   /* Lilo off-black */
+  --paper: #f1f1ee; /* the off-white; one line to swap (ask ee8a782d), with each page's theme-color */
+  --u: 8px;         /* the grid */
+  --edge: calc(var(--u) * 4);      /* page edge; also holds the logo's clear space */
+  --axis: var(--edge);             /* the one left edge */
+  --read: 18px;                    /* type size two, for reading */
+  --read-lead: 28px;
+  --read-gap: calc(var(--u) * 4);  /* between paragraphs, ink to ink */
+  --read-measure: 32em;            /* about 70 characters */
+  --head: 22px;                    /* section heads, a step below the title */
+  --head-lead: 28px;
+  --say: 28px;                     /* the title */
+  --say-lead: calc(var(--u) * 4);
+  --say-measure: 18em;
+  --small: 16px;
+  --small-lead: calc(var(--u) * 3);
+  --after-top: calc(var(--u) * 10);
+  --after-title: calc(var(--u) * 5);
+  --before-head: calc(var(--u) * 8);
+  --after-head: calc(var(--u) * 3);
+}
+@media (min-width: 720px) {
+  :root {
+    --edge: calc(var(--u) * 6);
+    --axis: max(var(--edge), 100vw / 6);
+    --read: 20px;
+    --read-lead: calc(var(--u) * 4);
+    --read-gap: calc(var(--u) * 5);
+    --head: 28px;
+    --head-lead: calc(var(--u) * 4);
+    --say: 40px;
+    --say-lead: calc(var(--u) * 6);
+    --after-top: calc(var(--u) * 15);
+    --after-title: calc(var(--u) * 7);
+    --before-head: calc(var(--u) * 11);
+    --after-head: calc(var(--u) * 4);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100svh;
+  padding: 0 var(--edge) var(--edge) var(--axis);
+  font: 400 var(--read) / var(--read-lead) Barlow, sans-serif;
+}
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+a {
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: var(--ring-offset, 4px);
+}
+
+/* ---------- the logo, home ---------- */
+.top {
+  padding-top: var(--edge);
+}
+.home {
+  --ring-offset: calc(var(--u) * 1.5);
+  display: block;
+  width: fit-content;
+}
+.home img {
+  display: block;
+  width: auto;
+  height: calc(var(--u) * 4); /* 32 px, BRAND.md's nav size; clear space 13.4 px */
+}
+
+/* ---------- titles and section heads ---------- */
+.title,
+.prose h2 {
+  max-width: var(--say-measure);
+  margin-left: -0.03em; /* W and T side bearings (25 and 31 of 1000), onto the axis */
+  font: 600 var(--say) / var(--say-lead) "Barlow Semi Condensed", sans-serif;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+  text-box: trim-both cap alphabetic;
+}
+.title {
+  margin-top: var(--after-top);
+}
+.prose h2 {
+  font-size: var(--head);
+  line-height: var(--head-lead);
+}
+
+/* ---------- the list of pieces ---------- */
+.pieces {
+  margin-top: var(--after-title);
+  list-style: none;
+}
+.pieces li + li {
+  margin-top: calc(var(--u) * 4);
+}
+.quiet {
+  /* a 48 px tall touch target and its focus ring, without moving the text */
+  --ring-offset: 0px;
+  display: inline-block;
+  margin: calc(var(--u) * -2) calc(var(--u) * -1.5);
+  padding: calc(var(--u) * 2) calc(var(--u) * 1.5);
+  font-weight: 500;
+  text-decoration: underline 1px;
+  text-underline-offset: 6px;
+  text-box: trim-both cap alphabetic;
+}
+.quiet:hover,
+.quiet:active {
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- long form ---------- */
+.prose {
+  max-width: var(--read-measure);
+}
+.prose > * + * {
+  margin-top: var(--read-gap);
+}
+.prose > .title + * {
+  margin-top: var(--after-title);
+}
+.prose p {
+  text-wrap: pretty;
+  text-box: trim-both cap alphabetic;
+}
+.prose .note {
+  /* ours: who spoke and what is ours, in the small size above the rule */
+  font-size: var(--small);
+  line-height: var(--small-lead);
+}
+.prose hr {
+  margin-block: var(--after-title);
+  border: 0;
+  border-top: 1px solid var(--ink);
+}
+.prose * + h2 {
+  margin-top: var(--before-head);
+}
+.prose h2 + * {
+  margin-top: var(--after-head);
+}
+
+/* ---------- the maker: every page's footer ---------- */
+.maker {
+  margin-top: var(--before-head);
+  margin-left: -0.094em; /* the M's side bearing, onto the axis */
+  font-size: var(--small);
+  line-height: var(--small-lead);
+  text-box: trim-both cap alphabetic;
+}
