@@ -37,7 +37,7 @@
   --after-line: calc(var(--u) * 5);
   --after-name: calc(var(--u) * 2);
   --after-product: calc(var(--u) * 5);
-  --after-maker: calc(var(--u) * 8);
+  --around-words: calc(var(--u) * 8); /* above his words and below them, before the maker */
   --between: calc(var(--u) * 3);   /* between his passages; the line within one is 12.8 px ink to ink */
   --before-reach: calc(var(--u) * 5);
   --say: 28px;                     /* type size one: the line */
@@ -59,7 +59,7 @@
     --after-line: calc(var(--u) * 8);
     --after-name: calc(var(--u) * 3);
     --after-product: calc(var(--u) * 7);
-    --after-maker: calc(var(--u) * 12);
+    --around-words: calc(var(--u) * 12);
     --between: calc(var(--u) * 4);
     --before-reach: calc(var(--u) * 7);
     --say: 40px;
@@ -100,11 +100,11 @@ a:focus-visible {
   outline-offset: var(--ring-offset, 4px);
 }
 
-/* ---------- the first screen: the door, its maker at the foot ---------- */
+/* ---------- the first screen: the door alone ---------- */
 .screen {
   display: grid;
   /* the group sits a little above the middle, where the eye puts the centre */
-  grid-template-rows: minmax(var(--edge), 2fr) auto minmax(calc(var(--edge) * 2), 3fr) auto;
+  grid-template-rows: minmax(var(--edge), 2fr) auto minmax(calc(var(--edge) * 2), 3fr);
   min-height: calc(100svh - var(--edge));
 }
 .door {
@@ -204,17 +204,16 @@ a:focus-visible {
   text-decoration-thickness: 2px;
 }
 
-/* ---------- the maker ---------- */
+/* ---------- the maker: the page's footer ---------- */
 .maker {
-  grid-row: 4;
   margin-left: -0.094em; /* the M's side bearing, onto the axis */
   text-box: trim-both cap alphabetic;
 }
 
-/* ---------- his words, beneath the door ---------- */
+/* ---------- his words, beneath the door, then the maker ---------- */
 .words {
   max-width: var(--measure);
-  margin: var(--after-maker) 0;
+  margin: var(--around-words) 0;
 }
 .words p {
   text-wrap: pretty;
