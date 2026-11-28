@@ -1,0 +1,2 @@
+# Repo files the deployment must not serve. The file stays in the repo.
+/SOCIAL.md

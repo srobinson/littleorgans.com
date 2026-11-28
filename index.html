@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lilo</title>
-<meta name="description" content="Lilotab is made by Lilo, where AI agents learn to do excellent work.">
+<meta name="description" content="Lilo is where AI agents learn to do excellent work.">
 <link rel="canonical" href="https://littleorgans.com/">
 <meta name="theme-color" content="#ffffff">
 <meta name="color-scheme" content="light">
@@ -13,13 +13,15 @@
 <meta property="og:site_name" content="Lilo">
 <meta property="og:url" content="https://littleorgans.com/">
 <meta property="og:title" content="Lilo">
-<meta property="og:description" content="Lilotab is made by Lilo, where AI agents learn to do excellent work.">
+<meta property="og:description" content="Lilo is where AI agents learn to do excellent work.">
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/BarlowSemiCondensed-SemiBold.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/Barlow-Medium.woff2" crossorigin>
 <style>
 /* ==========================================================================
-   littleorgans.com, the door: the Lilo logo, one line, Lilotab and two ways in.
-   Brand: lilo/brand/BRAND.md. Two colours, Lilo black on white, no tints.
+   littleorgans.com, the door: the Lilo logo, one line, Lilotab as the product
+   it is (its icon and a real capture of its tab menu), two quiet links.
+   Brand: lilo/brand/BRAND.md. Two colours, Lilo black on white, no tints; only
+   the product capture keeps Lilotab's own UI colours, inside its own edge.
    One 8 px grid, one left axis, two type sizes. Text boxes are trimmed to cap
    height and baseline, so every gap below is measured ink to ink.
    ========================================================================== */
@@ -53,9 +55,14 @@
   --logo: calc(var(--u) * 9);      /* 72 px; clear space 0.42 x 72 = 30.2 px */
   --after-logo: calc(var(--u) * 4);/* 32 px, at least the clear space */
   --after-line: calc(var(--u) * 5);
+  --after-name: calc(var(--u) * 2);
+  --after-product: calc(var(--u) * 5);
   --say: 28px;                     /* type size one: the line */
   --say-lead: calc(var(--u) * 4);
+  --say-measure: 18em;
   --small: 16px;                   /* type size two: everything else */
+  --tile: calc(var(--u) * 6);      /* the app icon's tile, 48 px; its PNG adds 8 px of margin each side at 64 */
+  --menu: 542px;                   /* Lilotab's menu at its real width */
   --ease: cubic-bezier(.25, 1, .5, 1); /* ease out quart */
 }
 @media (min-width: 720px) {
@@ -64,9 +71,16 @@
     --axis: max(var(--edge), 100vw / 6);
     --logo: calc(var(--u) * 16);     /* 128 px; clear space 53.8 px */
     --after-logo: calc(var(--u) * 7);/* 56 px */
-    --after-line: calc(var(--u) * 7);
+    --after-line: calc(var(--u) * 8);
+    --after-name: calc(var(--u) * 3);
+    --after-product: calc(var(--u) * 7);
     --say: 40px;
     --say-lead: calc(var(--u) * 6);
+  }
+}
+@media (min-width: 1200px) {
+  :root {
+    --say-measure: none; /* the line holds on one line once it fits */
   }
 }
 
@@ -93,10 +107,19 @@ body {
   background: var(--ink);
   color: var(--paper);
 }
+a {
+  color: inherit;
+  -webkit-tap-highlight-color: transparent; /* pressed feedback is the brand's own, below */
+}
+a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: var(--ring-offset, 4px);
+}
 
 /* ---------- the door ---------- */
 .door {
   grid-row: 2;
+  min-width: 0;
 }
 .logo img {
   display: block;
@@ -104,7 +127,7 @@ body {
   height: var(--logo);
 }
 .line {
-  max-width: 18em;
+  max-width: var(--say-measure);
   margin-top: var(--after-logo);
   /* optical edge: pull the L's side bearing (64/1000) back onto the axis */
   margin-left: -0.064em;
@@ -114,56 +137,76 @@ body {
   text-box: trim-both cap alphabetic;
 }
 
-/* ---------- the ways in: Lilotab, then two quiet links ---------- */
-.ways {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline; /* every label on one baseline, the button's included */
-  gap: var(--u) calc(var(--u) * 4);
+/* ---------- Lilotab: its icon and name, then its menu as it renders ---------- */
+.product {
+  --ring-offset: calc(var(--u) * 2);
+  display: block;
+  width: fit-content;
+  max-width: 100%;
   margin-top: var(--after-line);
-  font-weight: 500;
-  --ring-offset: 4px; /* inherited; .quiet sets its own */
+  text-decoration: none;
 }
-.ways a {
-  color: inherit;
-  -webkit-tap-highlight-color: transparent; /* pressed feedback is the brand's own, below */
-}
-.ways a:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: var(--ring-offset);
-}
-.lilotab {
-  display: inline-flex;
+.name {
+  display: flex;
   align-items: center;
   gap: calc(var(--u) * 2);
-  height: calc(var(--u) * 6);
-  padding: 0 calc(var(--u) * 3);
-  border: 2px solid var(--ink);
-  text-decoration: none;
-  /* ink and ground swap in one step: no colour is ever in between */
+  font-weight: 500;
 }
-.lilotab svg {
+.name img {
+  display: block;
+  flex: none;
+  /* the 128 px brand icon at 64, two device pixels to one; its transparent margin sits outside the flow,
+     so the tile's own edge is on the axis */
+  width: calc(var(--tile) + var(--u) * 2);
+  height: calc(var(--tile) + var(--u) * 2);
+  margin: calc(var(--u) * -1);
+}
+.name span {
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 6px;
+  text-box: trim-both cap alphabetic;
+}
+.name svg {
   display: block;
   flex: none;
   width: 16px;
   height: 16px;
+  margin-left: calc(var(--u) * -1); /* 8 px from the word, half the gap after the tile */
   transition: transform .24s var(--ease);
 }
-.lilotab:hover,
-.lilotab:active {
-  background: var(--ink);
-  color: var(--paper);
+.product:hover .name span,
+.product:active .name span {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
 }
-.lilotab:hover svg {
+.product:hover .name svg {
   transform: translateX(4px);
 }
+.menu {
+  display: block;
+  width: var(--menu);
+  max-width: 100%;
+  height: auto;
+  margin-top: var(--after-name);
+}
+
+/* ---------- two quiet links ---------- */
+.ways {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--u) calc(var(--u) * 4);
+  margin-top: var(--after-product);
+  font-weight: 500;
+}
 .quiet {
-  /* a touch target and focus ring as tall as Lilotab's, without moving the text */
+  /* a 48 px tall touch target and its focus ring, without moving the text */
   --ring-offset: 0px;
   margin: calc(var(--u) * -2) calc(var(--u) * -1.5);
   padding: calc(var(--u) * 2) calc(var(--u) * 1.5);
   text-decoration: underline 1px;
   text-underline-offset: 6px;
+  text-box: trim-both cap alphabetic;
 }
 .quiet:hover,
 .quiet:active {
@@ -178,10 +221,10 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lilotab svg {
+  .name svg {
     transition: none;
   }
-  .lilotab:hover svg {
+  .product:hover .name svg {
     transform: none;
   }
 }
@@ -190,9 +233,12 @@ footer {
 <body>
 <main class="door">
   <h1 class="logo"><img src="/assets/logo/lilo-logo.svg" alt="Lilo" width="1993" height="738"></h1>
-  <p class="line">Lilotab is made by Lilo, where AI agents learn to do excellent work.</p>
+  <p class="line">Lilo is where AI agents learn to do excellent work.</p>
+  <a class="product" href="https://github.com/littleorgans/lilotab">
+    <span class="name"><img src="/assets/lilotab/icon-128.png" alt="" width="128" height="128"><span>Lilotab</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="miter" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5"/></svg></span>
+    <img class="menu" src="/assets/lilotab/lilotab-menu.webp" alt="Its tab menu: a strip of three windows above the six tabs of the first, most recent first, from Octopus on Wikipedia to CSS grid layout on MDN." width="1084" height="520">
+  </a>
   <nav class="ways" aria-label="Lilo elsewhere">
-    <a class="lilotab" href="https://github.com/littleorgans/lilotab" aria-label="Lilotab on GitHub">Lilotab<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="miter" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
     <a class="quiet" href="https://x.com/KnowMoreContext" aria-label="Lilo on X">X</a>
     <a class="quiet" href="https://github.com/littleorgans" aria-label="Little Organs on GitHub">GitHub</a>
   </nav>

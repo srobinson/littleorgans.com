@@ -1,8 +1,11 @@
 littleorgans.com
 Copyright (c) 2026 Stuart Robinson
 
-The Lilo logo (assets/logo/lilo-logo.svg) and favicon (favicon.ico) are copyright Stuart Robinson, all rights
-reserved. They are copied unchanged from the Lilo brand files.
+The Lilo logo (assets/logo/lilo-logo.svg), favicon (favicon.ico) and app icon (assets/lilotab/icon-128.png) are
+copyright Stuart Robinson, all rights reserved. They are copied unchanged from the Lilo brand files.
+
+assets/lilotab/lilotab-menu.webp is a screen capture of Lilotab's tab menu over public demo pages. The site icons and
+page titles shown in it belong to their owners.
 
 The fonts under assets/fonts/ (Barlow and Barlow Semi Condensed) belong to their authors and are used under the
 SIL Open Font License 1.1, in assets/fonts/OFL.txt.
