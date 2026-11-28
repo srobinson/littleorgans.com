@@ -1,5 +1,5 @@
 /* ==========================================================================
-   littleorgans.com: the door, then its maker's words.
+   littleorgans.com: the door, its maker's words beneath it, and Writing.
    Brand: lilo/brand/BRAND.md. Two colours, Lilo black on white, no tints; only
    the product capture keeps Lilotab's own UI colours, inside its own edge.
    One 8 px grid, one left axis, two type sizes. Text boxes are trimmed to cap
@@ -40,6 +40,14 @@
   --after-maker: calc(var(--u) * 8);
   --between: calc(var(--u) * 3);   /* between his passages; the line within one is 12.8 px ink to ink */
   --before-reach: calc(var(--u) * 5);
+  --read: 18px;                    /* writing pages: type size two, for reading */
+  --read-lead: 28px;
+  --read-gap: calc(var(--u) * 4);  /* between paragraphs, ink to ink; the line within one is 15.4 px */
+  --read-measure: 32em;            /* about 70 characters */
+  --after-top: calc(var(--u) * 10);
+  --after-title: calc(var(--u) * 5);
+  --before-head: calc(var(--u) * 8);
+  --after-head: calc(var(--u) * 3);
   --say: 28px;                     /* type size one: the line */
   --say-lead: calc(var(--u) * 4);
   --say-measure: 18em;
@@ -62,6 +70,13 @@
     --after-maker: calc(var(--u) * 12);
     --between: calc(var(--u) * 4);
     --before-reach: calc(var(--u) * 7);
+    --read: 20px;
+    --read-lead: calc(var(--u) * 4);
+    --read-gap: calc(var(--u) * 5);  /* the line within a paragraph is 18 px */
+    --after-top: calc(var(--u) * 15);
+    --after-title: calc(var(--u) * 7);
+    --before-head: calc(var(--u) * 11);
+    --after-head: calc(var(--u) * 4);
     --say: 40px;
     --say-lead: calc(var(--u) * 6);
   }
@@ -181,13 +196,16 @@ a:focus-visible {
 }
 
 /* ---------- quiet links ---------- */
-.ways {
+.ways,
+.ways > nav {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--u) calc(var(--u) * 4);
-  margin-top: var(--after-product);
   font-weight: 500;
+}
+.ways {
+  margin-top: var(--after-product);
 }
 .quiet {
   /* a 48 px tall touch target and its focus ring, without moving the text */
@@ -205,8 +223,10 @@ a:focus-visible {
 }
 
 /* ---------- the maker ---------- */
-.maker {
+.screen .maker {
   grid-row: 4;
+}
+.maker {
   margin-left: -0.094em; /* the M's side bearing, onto the axis */
   text-box: trim-both cap alphabetic;
 }
@@ -229,6 +249,93 @@ a:focus-visible {
 .words .quiet {
   display: inline-block;
   margin-top: calc(var(--after-name) - var(--u) * 2); /* the touch padding sits inside the gap */
+}
+
+/* ---------- writing: the logo home, a title, then long form ---------- */
+.reading {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100svh;
+  font-size: var(--read);
+  line-height: var(--read-lead);
+}
+.top {
+  padding-top: var(--edge);
+}
+.home {
+  --ring-offset: calc(var(--u) * 1.5);
+  display: block;
+  width: fit-content;
+}
+.home img {
+  display: block;
+  width: auto;
+  height: calc(var(--u) * 4); /* 32 px, BRAND.md's nav size; clear space 13.4 px */
+}
+.title,
+.prose h2 {
+  max-width: var(--say-measure);
+  margin-left: -0.03em; /* W and T side bearings (25 and 31 of 1000), onto the axis */
+  font: 600 var(--say) / var(--say-lead) "Barlow Semi Condensed", sans-serif;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+  text-box: trim-both cap alphabetic;
+}
+.title {
+  margin-top: var(--after-top);
+}
+.pieces {
+  margin-top: var(--after-title);
+  list-style: none;
+}
+.pieces .quiet {
+  display: inline-block;
+}
+.prose {
+  max-width: var(--read-measure);
+}
+.prose > * + * {
+  margin-top: var(--read-gap);
+}
+.prose > .title + * {
+  margin-top: var(--after-title);
+}
+.prose p,
+.prose li {
+  text-wrap: pretty;
+}
+.prose p,
+.prose ul,
+.prose ol {
+  text-box: trim-both cap alphabetic;
+}
+.prose em {
+  font-style: normal; /* Barlow ships no italic here; the standfirst's emphasis is set in Medium */
+  font-weight: 500;
+}
+.prose strong {
+  font-weight: 500;
+}
+.prose hr {
+  margin-block: var(--after-title);
+  border: 0;
+  border-top: 1px solid var(--ink);
+}
+.prose * + h2 {
+  margin-top: var(--before-head);
+}
+.prose h2 + * {
+  margin-top: var(--after-head);
+}
+.prose ul,
+.prose ol {
+  list-style-position: outside; /* markers hang left of the axis, so the text keeps the one edge */
+}
+.prose li + li {
+  margin-top: calc(var(--u) * 2);
+}
+.reading .maker {
+  margin-top: var(--before-head);
 }
 
 @media (prefers-reduced-motion: reduce) {
