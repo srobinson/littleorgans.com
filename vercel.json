@@ -1,5 +1,11 @@
 {
   "framework": null,
   "buildCommand": "rm -rf dist && mkdir -p dist/assets && cp -R writing index.html favicon.ico dist/ && cd assets && out=../dist/assets && cp -R fonts logo site.css writing.css \"$out/\" && mkdir \"$out/home-cast-b\" && cp home-cast-b/*.webp \"$out/home-cast-b/\"",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "tm/**": false
+    }
+  }
 }
