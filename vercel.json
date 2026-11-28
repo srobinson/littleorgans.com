@@ -1,5 +1,5 @@
 {
   "framework": null,
-  "buildCommand": "rm -rf dist && mkdir -p dist/assets/fonts && cp index.html favicon.ico dist/ && cp -R assets/logo assets/lilotab dist/assets/ && cp assets/fonts/*.woff2 assets/fonts/OFL.txt dist/assets/fonts/",
+  "buildCommand": "rm -rf dist && mkdir -p dist/assets/fonts && cp index.html favicon.ico dist/ && cp assets/site.css dist/assets/ && cp -R assets/logo assets/lilotab dist/assets/ && cp assets/fonts/*.woff2 assets/fonts/OFL.txt dist/assets/fonts/",
   "outputDirectory": "dist"
 }

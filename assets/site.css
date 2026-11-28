@@ -1,0 +1,241 @@
+/* ==========================================================================
+   littleorgans.com: the door, then its maker's words.
+   Brand: lilo/brand/BRAND.md. Two colours, Lilo black on white, no tints; only
+   the product capture keeps Lilotab's own UI colours, inside its own edge.
+   One 8 px grid, one left axis, two type sizes. Text boxes are trimmed to cap
+   height and baseline, so every gap below is measured ink to ink.
+   ========================================================================== */
+
+/* ---------- type: Barlow, from the brand fonts (OFL, assets/fonts/OFL.txt) ---------- */
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  font-weight: 600;
+  src: url(/assets/fonts/BarlowSemiCondensed-SemiBold.woff2) format("woff2");
+  font-display: block;
+}
+@font-face {
+  font-family: Barlow;
+  font-weight: 500;
+  src: url(/assets/fonts/Barlow-Medium.woff2) format("woff2");
+  font-display: block;
+}
+@font-face {
+  font-family: Barlow;
+  font-weight: 400;
+  src: url(/assets/fonts/Barlow-Regular.woff2) format("woff2");
+  font-display: block;
+}
+
+:root {
+  --ink: #16140f;   /* Lilo black */
+  --paper: #ffffff; /* white */
+  --u: 8px;         /* the grid */
+  --edge: calc(var(--u) * 4);      /* page edge; also holds the logo's clear space */
+  --axis: var(--edge);             /* the one left edge */
+  --logo: calc(var(--u) * 9);      /* 72 px; clear space 0.42 x 72 = 30.2 px */
+  --after-logo: calc(var(--u) * 4);/* 32 px, at least the clear space */
+  --after-line: calc(var(--u) * 5);
+  --after-name: calc(var(--u) * 2);
+  --after-product: calc(var(--u) * 5);
+  --after-maker: calc(var(--u) * 8);
+  --between: calc(var(--u) * 3);   /* between his passages; the line within one is 12.8 px ink to ink */
+  --before-reach: calc(var(--u) * 5);
+  --say: 28px;                     /* type size one: the line */
+  --say-lead: calc(var(--u) * 4);
+  --say-measure: 18em;
+  --small: 16px;                   /* type size two: everything else */
+  --small-lead: calc(var(--u) * 3);
+  --measure: 34em;                 /* running text, about the width of Lilotab's menu */
+  --tile: calc(var(--u) * 6);      /* the app icon's tile, 48 px; its PNG adds 8 px of margin each side at 64 */
+  --menu: 542px;                   /* Lilotab's menu at its real width */
+  --ease: cubic-bezier(.25, 1, .5, 1); /* ease out quart */
+}
+@media (min-width: 720px) {
+  :root {
+    --edge: calc(var(--u) * 6);
+    --axis: max(var(--edge), 100vw / 6);
+    --logo: calc(var(--u) * 16);     /* 128 px; clear space 53.8 px */
+    --after-logo: calc(var(--u) * 7);/* 56 px */
+    --after-line: calc(var(--u) * 8);
+    --after-name: calc(var(--u) * 3);
+    --after-product: calc(var(--u) * 7);
+    --after-maker: calc(var(--u) * 12);
+    --between: calc(var(--u) * 4);
+    --before-reach: calc(var(--u) * 7);
+    --say: 40px;
+    --say-lead: calc(var(--u) * 6);
+  }
+}
+@media (min-width: 1200px) {
+  :root {
+    --say-measure: none; /* the line holds on one line once it fits */
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  padding: 0 var(--edge) var(--edge) var(--axis);
+  font: 400 var(--small) / var(--small-lead) Barlow, sans-serif;
+}
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+a {
+  color: inherit;
+  -webkit-tap-highlight-color: transparent; /* pressed feedback is the brand's own, below */
+}
+a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: var(--ring-offset, 4px);
+}
+
+/* ---------- the first screen: the door, its maker at the foot ---------- */
+.screen {
+  display: grid;
+  /* the group sits a little above the middle, where the eye puts the centre */
+  grid-template-rows: minmax(var(--edge), 2fr) auto minmax(calc(var(--edge) * 2), 3fr) auto;
+  min-height: calc(100svh - var(--edge));
+}
+.door {
+  grid-row: 2;
+  min-width: 0;
+}
+.logo img {
+  display: block;
+  width: auto;
+  height: var(--logo);
+}
+.line {
+  max-width: var(--say-measure);
+  margin-top: var(--after-logo);
+  /* optical edge: pull the L's side bearing (64/1000) back onto the axis */
+  margin-left: -0.064em;
+  font: 600 var(--say) / var(--say-lead) "Barlow Semi Condensed", sans-serif;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---------- Lilotab: its icon and name, then its menu as it renders ---------- */
+.product {
+  --ring-offset: calc(var(--u) * 2);
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: var(--after-line);
+  text-decoration: none;
+}
+.name {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 2);
+  font-weight: 500;
+}
+.name img {
+  display: block;
+  flex: none;
+  /* the 128 px brand icon at 64, two device pixels to one; its transparent margin sits outside the flow,
+     so the tile's own edge is on the axis */
+  width: calc(var(--tile) + var(--u) * 2);
+  height: calc(var(--tile) + var(--u) * 2);
+  margin: calc(var(--u) * -1);
+}
+.name span {
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 6px;
+  text-box: trim-both cap alphabetic;
+}
+.name svg {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-left: calc(var(--u) * -1); /* 8 px from the word, half the gap after the tile */
+  transition: transform .24s var(--ease);
+}
+.product:hover .name span,
+.product:active .name span {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+.product:hover .name svg {
+  transform: translateX(4px);
+}
+.menu {
+  display: block;
+  width: var(--menu);
+  max-width: 100%;
+  height: auto;
+  margin-top: var(--after-name);
+}
+
+/* ---------- quiet links ---------- */
+.ways {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--u) calc(var(--u) * 4);
+  margin-top: var(--after-product);
+  font-weight: 500;
+}
+.quiet {
+  /* a 48 px tall touch target and its focus ring, without moving the text */
+  --ring-offset: 0px;
+  margin: calc(var(--u) * -2) calc(var(--u) * -1.5);
+  padding: calc(var(--u) * 2) calc(var(--u) * 1.5);
+  font-weight: 500;
+  text-decoration: underline 1px;
+  text-underline-offset: 6px;
+  text-box: trim-both cap alphabetic;
+}
+.quiet:hover,
+.quiet:active {
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- the maker ---------- */
+.maker {
+  grid-row: 4;
+  margin-left: -0.094em; /* the M's side bearing, onto the axis */
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---------- his words, beneath the door ---------- */
+.words {
+  max-width: var(--measure);
+  margin: var(--after-maker) 0;
+}
+.words p {
+  text-wrap: pretty;
+  text-box: trim-both cap alphabetic;
+}
+.words p + p {
+  margin-top: var(--between);
+}
+.words .reach {
+  margin-top: var(--before-reach); /* the reach line closes the block */
+}
+.words .quiet {
+  display: inline-block;
+  margin-top: calc(var(--after-name) - var(--u) * 2); /* the touch padding sits inside the gap */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .name svg {
+    transition: none;
+  }
+  .product:hover .name svg {
+    transform: none;
+  }
+}
