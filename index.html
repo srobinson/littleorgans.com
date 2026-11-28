@@ -122,13 +122,15 @@ body {
   gap: var(--u) calc(var(--u) * 4);
   margin-top: var(--after-line);
   font-weight: 500;
+  --ring-offset: 4px; /* inherited; .quiet sets its own */
 }
 .ways a {
   color: inherit;
+  -webkit-tap-highlight-color: transparent; /* pressed feedback is the brand's own, below */
 }
 .ways a:focus-visible {
   outline: 2px solid var(--ink);
-  outline-offset: 4px;
+  outline-offset: var(--ring-offset);
 }
 .lilotab {
   display: inline-flex;
@@ -138,7 +140,7 @@ body {
   padding: 0 calc(var(--u) * 3);
   border: 2px solid var(--ink);
   text-decoration: none;
-  transition: background-color .16s var(--ease), color .16s var(--ease);
+  /* ink and ground swap in one step: no colour is ever in between */
 }
 .lilotab svg {
   display: block;
@@ -147,7 +149,8 @@ body {
   height: 16px;
   transition: transform .24s var(--ease);
 }
-.lilotab:hover {
+.lilotab:hover,
+.lilotab:active {
   background: var(--ink);
   color: var(--paper);
 }
@@ -156,15 +159,14 @@ body {
 }
 .quiet {
   /* a touch target and focus ring as tall as Lilotab's, without moving the text */
+  --ring-offset: 0px;
   margin: calc(var(--u) * -2) calc(var(--u) * -1.5);
   padding: calc(var(--u) * 2) calc(var(--u) * 1.5);
   text-decoration: underline 1px;
   text-underline-offset: 6px;
 }
-.quiet:focus-visible {
-  outline-offset: 0;
-}
-.quiet:hover {
+.quiet:hover,
+.quiet:active {
   text-decoration-thickness: 2px;
 }
 
@@ -176,7 +178,6 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lilotab,
   .lilotab svg {
     transition: none;
   }
@@ -191,7 +192,7 @@ footer {
   <h1 class="logo"><img src="/assets/logo/lilo-logo.svg" alt="Lilo" width="1993" height="738"></h1>
   <p class="line">Lilotab is made by Lilo, where AI agents learn to do excellent work.</p>
   <nav class="ways" aria-label="Lilo elsewhere">
-    <a class="lilotab" href="https://github.com/littleorgans/lilotab" aria-label="Lilotab on GitHub">Lilotab<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="miter"/></svg></a>
+    <a class="lilotab" href="https://github.com/littleorgans/lilotab" aria-label="Lilotab on GitHub">Lilotab<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="miter" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
     <a class="quiet" href="https://x.com/KnowMoreContext" aria-label="Lilo on X">X</a>
     <a class="quiet" href="https://github.com/littleorgans" aria-label="Little Organs on GitHub">GitHub</a>
   </nav>
